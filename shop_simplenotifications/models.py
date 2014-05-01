@@ -5,7 +5,6 @@ from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template import loader, RequestContext, TemplateDoesNotExist
 
 from shop.order_signals import confirmed
-from shop.util.address import get_billing_address_from_request
 
 def subject(template_name):
     """Returns the email subject based on the subject template."""
@@ -68,6 +67,8 @@ def payment_instructions_email_notification(sender, **kwargs):
     
     request = kwargs.get('request')
     order = kwargs.get('order')
+
+    from shop.util.address import get_billing_address_from_request
     
     emails = []
     if order.user and order.user.email: 
